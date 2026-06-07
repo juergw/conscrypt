@@ -230,6 +230,56 @@ jobs:
           path: openjdk/build/libs/conscrypt-openjdk-*-tests.jar
           if-no-files-found: error
 
+  android-test:
+    needs: boringssl_clone
+    # macos-14 uses Apple Silicon M1 runners for hardware-accelerated emulators
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [21, 26, 30, 34]
+
+    steps:
+      - name: Set up JDK 17 for toolchains
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Set runner-specific environment variables
+        shell: bash
+        run: |
+          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          echo "BORINGSSL_HOME=${{ runner.temp }}/boringssl" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v6
+
+      - name: Fetch BoringSSL source
+        uses: actions/download-artifact@v7
+        with:
+          name: boringssl-source
+          path: ${{ runner.temp }}/boringssl
+
+      - name: Checkout BoringSSL main branch
+        shell: bash
+        run: |
+          cd "$BORINGSSL_HOME"
+          git checkout --progress --force -B main
+
+      - name: Accept Android SDK licenses
+        run: |
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+      - name: Run instrumentation tests on Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: arm64-v8a
+          force-avd-creation: false
+          disable-spellchecker: true
+          target: google_apis
+          script: ./gradlew :conscrypt-android:connectedAndroidTest -PcheckErrorQueue
+
   uberjar:
     needs: build
 

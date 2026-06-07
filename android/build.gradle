@@ -82,6 +82,13 @@ android {
             srcDirs += "build/generated/resources"
         }
     }
+    sourceSets.androidTest {
+        java {
+            srcDirs = [
+                    "${rootDir}/common/src/test/java",
+            ]
+        }
+    }
     externalNativeBuild {
         cmake {
             path 'CMakeLists.txt'
@@ -109,6 +116,7 @@ preBuild {
 
 dependencies {
     publicApiDocs project(':conscrypt-api-doclet')
+    androidTestImplementation project(':conscrypt-testing')
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.1', {
         exclude module: 'support-annotations'
         exclude module: 'support-v4'
