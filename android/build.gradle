@@ -98,7 +98,11 @@ android {
     lintOptions {
         lintConfig file('lint.xml')
     }
-
+    packagingOptions {
+        resources {
+            excludes += 'META-INF/versions/9/OSGI-INF/MANIFEST.MF'
+        }
+    }
     publishing {
         singleVariant("release") {
             withSourcesJar()
