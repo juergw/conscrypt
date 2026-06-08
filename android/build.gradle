@@ -178,3 +178,11 @@ afterEvaluate {
         artifact javadocsJar.get()
     }
 }
+
+configurations.all {
+    resolutionStrategy {
+        force 'org.bouncycastle:bcpkix-jdk18on:1.77'
+        force 'org.bouncycastle:bcprov-jdk18on:1.77'
+        force 'org.bouncycastle:bcutil-jdk18on:1.77'
+    }
+}
