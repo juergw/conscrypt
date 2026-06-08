@@ -40,6 +40,7 @@ android {
         versionName androidVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArgument "class", "org.conscrypt.ConscryptAndroidSuite"
 
         consumerProguardFiles 'proguard-rules.pro'
 
@@ -86,6 +87,14 @@ android {
         java {
             srcDirs = [
                     "${rootDir}/common/src/test/java",
+                    "${rootDir}/openjdk/src/test/java",
+                    "${rootDir}/testing/src/test/java",
+            ]
+        }
+        resources {
+            srcDirs = [
+                    "${rootDir}/common/src/test/resources",
+                    "${rootDir}/openjdk/src/test/resources",
             ]
         }
     }
