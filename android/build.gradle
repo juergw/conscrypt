@@ -102,6 +102,10 @@ android {
         resources {
             excludes += 'META-INF/versions/9/OSGI-INF/MANIFEST.MF'
             excludes += 'junit/runner/**'
+            excludes += 'LICENSE*'
+            excludes += 'NOTICE*'
+            excludes += 'META-INF/LICENSE*'
+            excludes += 'META-INF/NOTICE*'
         }
     }
     publishing {
