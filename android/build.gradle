@@ -135,6 +135,7 @@ preBuild {
 dependencies {
     publicApiDocs project(':conscrypt-api-doclet')
     androidTestImplementation project(path: ':conscrypt-testing')
+    androidTestImplementation libs.mockito.android
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.1', {
         exclude module: 'support-annotations'
         exclude module: 'support-v4'
