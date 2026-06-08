@@ -101,7 +101,7 @@ android {
     packagingOptions {
         resources {
             excludes += 'META-INF/versions/9/OSGI-INF/MANIFEST.MF'
-            excludes += 'junit/runner/logo.gif'
+            excludes += 'junit/runner/**'
         }
     }
     publishing {
