@@ -350,13 +350,11 @@ public class NativeCryptoArgTest {
     }
 
     private Class<?> conscryptClass(String className) {
-        return classCache.computeIfAbsent(className, s -> {
-            try {
-                return Class.forName(CONSCRYPT_PACKAGE + className);
-            } catch (ClassNotFoundException e) {
-                return null;
-            }
-        });
+        try {
+		return Class.forName(CONSCRYPT_PACKAGE + className);
+	    } catch (ClassNotFoundException e) {
+		return null;
+	    };
     }
 
     private Map<String, Method> buildMethodMap() {
