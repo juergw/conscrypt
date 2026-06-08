@@ -17,7 +17,7 @@ sourceSets {
 dependencies {
     compileOnly project(':conscrypt-constants')
 
-    implementation libs.bouncycastle.apis,
+    api libs.bouncycastle.apis,
             libs.bouncycastle.provider,
             libs.junit
 }
