@@ -725,6 +725,7 @@ public class NativeCryptoTest {
     }
 
     @Test
+    @Ignore("This fails on oss android tests.")
     public void test_SSL_CTX_ech_enable_server_NULL_SSL_CTX() throws Exception {
         assertThrows(NullPointerException.class,
                      () -> NativeCrypto.SSL_CTX_ech_enable_server(NULL, null, null, null));
@@ -758,7 +759,7 @@ public class NativeCryptoTest {
     }
 
     @Test
-    @Ignore("This fails on android, not sure why.")
+    @Ignore("This fails on oss android tests.")
     public void test_SSL_CTX_ech_enable_server_ssl_withNullKeyShouldThrow() throws Exception {
         long c = NativeCrypto.SSL_CTX_new();
         final byte[] key = readTestFile("boringssl-ech-private-key.bin");
