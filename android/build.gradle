@@ -25,7 +25,7 @@ evaluationDependsOn(':conscrypt-constants')
 android {
     namespace "org.conscrypt"
 
-    compileSdkVersion androidTargetSdkVersion
+    compileSdkVersion 34
     ndkVersion androidNdkVersion
 
     compileOptions {
