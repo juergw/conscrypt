@@ -12363,11 +12363,12 @@ static jboolean NativeCrypto_SSL_set1_ech_config_list(JNIEnv* env, jclass, jlong
     if (ssl == nullptr) {
         return JNI_FALSE;
     }
+    if (configJavaBytes == nullptr) {
+        conscrypt::jniutil::throwNullPointerException(env, "Null pointer, ech config");
+        return JNI_FALSE;
+    }
     ScopedByteArrayRO configBytes(env, configJavaBytes);
     if (configBytes.get() == nullptr) {
-        conscrypt::jniutil::throwNullPointerException(env, "Null pointer, ech config");
-        ERR_clear_error();
-        JNI_TRACE("NativeCrypto_SSL_set1_ech_config_list => could not read config bytes");
         return JNI_FALSE;
     }
     int ret = SSL_set1_ech_config_list(ssl, reinterpret_cast<const uint8_t*>(configBytes.get()),
@@ -12481,32 +12482,34 @@ static jboolean NativeCrypto_SSL_ech_accepted(JNIEnv* env, jclass, jlong ssl_add
     return JNI_TRUE;
 }
 
+
 static jboolean NativeCrypto_SSL_CTX_ech_enable_server(JNIEnv* env, jclass, jlong ssl_ctx_address,
                                                        CONSCRYPT_UNUSED jobject holder,
                                                        jbyteArray keyJavaBytes,
                                                        jbyteArray configJavaBytes) {
     CHECK_ERROR_QUEUE_ON_RETURN;
     SSL_CTX* ssl_ctx = to_SSL_CTX(env, ssl_ctx_address, true);
+    if (ssl_ctx == nullptr) {
+        return JNI_FALSE;
+    }
     JNI_TRACE(
             "NativeCrypto_SSL_CTX_ech_enable_server(keyJavaBytes=%p, "
             "configJavaBytes=%p)",
             keyJavaBytes, configJavaBytes);
+    if (keyJavaBytes == nullptr) {
+        conscrypt::jniutil::throwNullPointerException(env, "Null pointer, key bytes");
+        return JNI_FALSE;
+    }
+    if (configJavaBytes == nullptr) {
+        conscrypt::jniutil::throwNullPointerException(env, "Null pointer, config bytes");
+        return JNI_FALSE;
+    }
     ScopedByteArrayRO keyBytes(env, keyJavaBytes);
     if (keyBytes.get() == nullptr) {
-        conscrypt::jniutil::throwNullPointerException(env, "Null pointer, key bytes");
-        ERR_clear_error();
-        JNI_TRACE(
-                "NativeCrypto_SSL_CTX_ech_enable_server => threw exception: "
-                "could not read key bytes");
         return JNI_FALSE;
     }
     ScopedByteArrayRO configBytes(env, configJavaBytes);
     if (configBytes.get() == nullptr) {
-        conscrypt::jniutil::throwNullPointerException(env, "Null pointer, config bytes");
-        ERR_clear_error();
-        JNI_TRACE(
-                "NativeCrypto_SSL_CTX_ech_enable_server => threw exception: "
-                "could not read config bytes");
         return JNI_FALSE;
     }
     const uint8_t* ech_key = reinterpret_cast<const uint8_t*>(keyBytes.get());
