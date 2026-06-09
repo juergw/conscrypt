@@ -25,12 +25,12 @@ evaluationDependsOn(':conscrypt-constants')
 android {
     namespace "org.conscrypt"
 
-    compileSdkVersion 34
+    compileSdkVersion androidTargetSdkVersion
     ndkVersion androidNdkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility androidMinJavaVersion
+        targetCompatibility androidMinJavaVersion
         coreLibraryDesugaringEnabled true
     }
 
