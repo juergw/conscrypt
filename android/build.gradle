@@ -30,7 +30,7 @@ android {
 
     compileOptions {
         sourceCompatibility androidMinJavaVersion
-        targetCompatibility androidMinJavaVersion
+        targetCompatibility JavaVersion.VERSION_11
         coreLibraryDesugaringEnabled true
     }
 

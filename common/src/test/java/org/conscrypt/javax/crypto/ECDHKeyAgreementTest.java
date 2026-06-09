@@ -459,36 +459,11 @@ public class ECDHKeyAgreementTest {
     }
 
     private static Provider[] getKeyAgreementProviders() {
-        Provider[] providers = Security.getProviders("KeyAgreement.ECDH");
-        if (providers == null) {
-            return new Provider[0];
-        }
-        // Sort providers by name to guarantee deterministic order in which providers are used in
-        // the tests.
-        return sortByName(providers);
+        return new Provider[] { TestUtils.getConscryptProvider() };
     }
 
     private static Provider[] getKeyFactoryProviders() {
-        Provider[] providers = Security.getProviders("KeyFactory.EC");
-        if (providers == null) {
-            return new Provider[0];
-        }
-
-        // Do not test AndroidKeyStore's KeyFactory. It only handles Android Keystore-backed keys.
-        // It's OKish not to test AndroidKeyStore's KeyFactory here because it's tested by
-        // cts/tests/test/keystore.
-        List<Provider> filteredProvidersList = new ArrayList<Provider>(providers.length);
-        for (Provider provider : providers) {
-            if ("AndroidKeyStore".equals(provider.getName())) {
-                continue;
-            }
-            filteredProvidersList.add(provider);
-        }
-        providers = filteredProvidersList.toArray(new Provider[filteredProvidersList.size()]);
-
-        // Sort providers by name to guarantee deterministic order in which providers are used in
-        // the tests.
-        return sortByName(providers);
+        return new Provider[] { TestUtils.getConscryptProvider() };
     }
 
     private static ECPrivateKey getPrivateKey(byte[] pkcs8EncodedKey, Provider provider)
