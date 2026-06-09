@@ -209,14 +209,14 @@ public final class CipherBasicsTest {
                 // that it's AES/CTR/NoPadding during init() for some reason, which causes it
                 // to throw an exception due to a lack of IV (required for CTR, prohibited for ECB).
                 // We don't strongly care about checking this implementation, so just skip it.
-                if (p.getClass().getName().equals("SunPKCS11-NSS")
+                if (p.getName().equals("SunPKCS11-NSS")
                     && transformation.equals("AES/ECB/NoPadding")) {
                     continue;
                 }
 
                 // The SunJCE implementation of ChaCha20 only supports initializing with
                 // ChaCha20ParameterSpec, introduced in Java 11.  For now, just skip testing it.
-                if (transformation.equals("ChaCha20") && p.getClass().getName().equals("SunJCE")) {
+                if (transformation.equals("ChaCha20") && p.getName().equals("SunJCE")) {
                     continue;
                 }
 
@@ -369,7 +369,7 @@ public final class CipherBasicsTest {
                 // On Android 10 and below, BC can return AES/GCM/NoPadding when asked for
                 // AES/GCM-SIV/NoPadding. Android will never actually ship AES/GCM-SIV/NoPadding
                 // in BC, so skip that combination.
-                if (p.getClass().getName().equals("BC") && transformation.equals("AES/GCM-SIV/NoPadding")) {
+                if (p.getName().equals("BC") && transformation.equals("AES/GCM-SIV/NoPadding")) {
                     continue;
                 }
 
