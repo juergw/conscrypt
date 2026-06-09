@@ -147,7 +147,8 @@ public final class ServiceTester {
      */
     public void run(Test test) {
         if (providers.isEmpty()) {
-            providers.addAll(Arrays.asList(Security.getProviders()));
+            // Only run with Conscrypt. This avoids tests with the old, pre-installed conscrypt.
+            providers.add(TestUtils.getConscryptProvider());
         }
         providers.removeAll(skipProviders);
         final ByteArrayOutputStream errBuffer = new ByteArrayOutputStream();
