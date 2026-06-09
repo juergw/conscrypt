@@ -209,14 +209,14 @@ public final class CipherBasicsTest {
                 // that it's AES/CTR/NoPadding during init() for some reason, which causes it
                 // to throw an exception due to a lack of IV (required for CTR, prohibited for ECB).
                 // We don't strongly care about checking this implementation, so just skip it.
-                if (p.getName().equals("SunPKCS11-NSS")
+                if (p.getClass().getName().equals("SunPKCS11-NSS")
                     && transformation.equals("AES/ECB/NoPadding")) {
                     continue;
                 }
 
                 // The SunJCE implementation of ChaCha20 only supports initializing with
                 // ChaCha20ParameterSpec, introduced in Java 11.  For now, just skip testing it.
-                if (transformation.equals("ChaCha20") && p.getName().equals("SunJCE")) {
+                if (transformation.equals("ChaCha20") && p.getClass().getName().equals("SunJCE")) {
                     continue;
                 }
 
@@ -248,12 +248,12 @@ public final class CipherBasicsTest {
                     try {
                         for (CallPattern callPattern : CallPattern.values()) {
                             cipher.init(Cipher.ENCRYPT_MODE, key, params);
-                            assertEquals("Provider " + p.getName() + ", algorithm " + transformation
+                            assertEquals("Provider " + p.getClass().getName() + ", algorithm " + transformation
                                                  + " reported the wrong output size",
                                          ciphertext.length, cipher.getOutputSize(plaintext.length));
                             byte[] encrypted =
                                     callCipher(cipher, plaintext, ciphertext.length, callPattern);
-                            assertArrayEquals("Provider " + p.getName() + ", algorithm "
+                            assertArrayEquals("Provider " + p.getClass().getName() + ", algorithm "
                                                       + transformation + ", CallPattern "
                                                       + callPattern
                                                       + " failed on encryption, data is "
@@ -267,13 +267,13 @@ public final class CipherBasicsTest {
                                                        callPattern);
                             } catch (GeneralSecurityException e) {
                                 throw new GeneralSecurityException(
-                                        "Provider " + p.getName() + ", algorithm " + transformation
+                                        "Provider " + p.getClass().getName() + ", algorithm " + transformation
                                                 + ", CallPattern " + callPattern
                                                 + " failed on decryption, data is "
                                                 + Arrays.toString(line),
                                         e);
                             }
-                            assertArrayEquals("Provider " + p.getName() + ", algorithm "
+                            assertArrayEquals("Provider " + p.getClass().getName() + ", algorithm "
                                                       + transformation + ", CallPattern "
                                                       + callPattern
                                                       + " failed on decryption, data is "
@@ -323,12 +323,12 @@ public final class CipherBasicsTest {
             if (aad.length > 0) {
                 cipher.updateAAD(aad);
             }
-            assertEquals("Provider " + p.getName() + ", algorithm " + transformation
+            assertEquals("Provider " + p.getClass().getName() + ", algorithm " + transformation
                                  + " reported the wrong output size",
                          combinedCiphertext.length, cipher.getOutputSize(plaintext.length));
             byte[] encrypted =
                     callCipher(cipher, plaintext, combinedCiphertext.length, callPattern);
-            assertArrayEquals("Provider " + p.getName() + ", algorithm " + transformation
+            assertArrayEquals("Provider " + p.getClass().getName() + ", algorithm " + transformation
                                       + ", CallPattern " + callPattern
                                       + " failed on encryption, data is " + Arrays.toString(line),
                               combinedCiphertext, encrypted);
@@ -339,7 +339,7 @@ public final class CipherBasicsTest {
             if (aad.length > 0) {
                 cipher.updateAAD(aad);
             }
-            assertEquals("Provider " + p.getName() + ", algorithm " + transformation
+            assertEquals("Provider " + p.getClass().getName() + ", algorithm " + transformation
                                  + " reported the wrong output size",
                          plaintext.length, cipher.getOutputSize(combinedCiphertext.length));
             byte[] decrypted;
@@ -347,12 +347,12 @@ public final class CipherBasicsTest {
                 decrypted = callCipher(cipher, combinedCiphertext, plaintext.length, callPattern);
             } catch (GeneralSecurityException e) {
                 throw new GeneralSecurityException(
-                        "Provider " + p.getName() + ", algorithm " + transformation
+                        "Provider " + p.getClass().getName() + ", algorithm " + transformation
                                 + ", CallPattern " + callPattern
                                 + " failed on decryption, data is " + Arrays.toString(line),
                         e);
             }
-            assertArrayEquals("Provider " + p.getName() + ", algorithm " + transformation
+            assertArrayEquals("Provider " + p.getClass().getName() + ", algorithm " + transformation
                                       + ", CallPattern " + callPattern
                                       + " failed on decryption, data is " + Arrays.toString(line),
                               plaintext, decrypted);
@@ -369,7 +369,7 @@ public final class CipherBasicsTest {
                 // On Android 10 and below, BC can return AES/GCM/NoPadding when asked for
                 // AES/GCM-SIV/NoPadding. Android will never actually ship AES/GCM-SIV/NoPadding
                 // in BC, so skip that combination.
-                if (p.getName().equals("BC") && transformation.equals("AES/GCM-SIV/NoPadding")) {
+                if (p.getClass().getName().equals("BC") && transformation.equals("AES/GCM-SIV/NoPadding")) {
                     continue;
                 }
 
@@ -425,7 +425,7 @@ public final class CipherBasicsTest {
                         if (e.getMessage().contains("IV must not be re-used")) {
                             throw new AssertionError("The same IV was used twice and therefore "
                                                              + "some tests did not run."
-                                                             + "Provider = " + p.getName()
+                                                             + "Provider = " + p.getClass().getName()
                                                              + ", algorithm = " + transformation,
                                                      e);
                         }
@@ -450,7 +450,7 @@ public final class CipherBasicsTest {
         byte[] _combinedOutput = new byte[_ciphertext.length + tag.length];
         byte[] _commonBacking = new byte[_plaintext.length + _combinedOutput.length];
 
-        assertEquals("Provider " + p.getName() + ", algorithm " + transformation
+        assertEquals("Provider " + p.getClass().getName() + ", algorithm " + transformation
                              + " reported the wrong output size",
                      _combinedOutput.length, cipher.getOutputSize(_plaintext.length));
         System.arraycopy(_ciphertext, 0, _combinedOutput, 0, _ciphertext.length);
@@ -476,7 +476,7 @@ public final class CipherBasicsTest {
         if (aad.length > 0) {
             cipher.updateAAD(aad);
         }
-        assertEquals("Provider " + p.getName() + ", algorithm " + transformation
+        assertEquals("Provider " + p.getClass().getName() + ", algorithm " + transformation
                              + " reported the wrong output size",
                      _plaintext.length, cipher.getOutputSize(_combinedOutput.length));
         combinedOutput.position(_plaintext.length);
@@ -513,7 +513,7 @@ public final class CipherBasicsTest {
             plaintext.reset();
         }
 
-        assertEquals("Provider " + p.getName() + ", algorithm " + transformation
+        assertEquals("Provider " + p.getClass().getName() + ", algorithm " + transformation
                              + " reported the wrong output size",
                      _combinedOutput.length, cipher.getOutputSize(_plaintext.length));
         System.arraycopy(_ciphertext, 0, _combinedOutput, 0, _ciphertext.length);
@@ -543,7 +543,7 @@ public final class CipherBasicsTest {
         if (aad.length > 0) {
             cipher.updateAAD(aad);
         }
-        assertEquals("Provider " + p.getName() + ", algorithm " + transformation
+        assertEquals("Provider " + p.getClass().getName() + ", algorithm " + transformation
                              + " reported the wrong output size",
                      _plaintext.length, cipher.getOutputSize(_combinedOutput.length));
         combinedOutput = ByteBuffer.wrap(_combinedOutput);
