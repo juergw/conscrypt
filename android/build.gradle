@@ -29,7 +29,7 @@ android {
     ndkVersion androidNdkVersion
 
     compileOptions {
-        sourceCompatibility androidMinJavaVersion
+        sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
         coreLibraryDesugaringEnabled true
     }
