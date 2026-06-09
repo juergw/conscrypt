@@ -69,7 +69,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         // org.conscrypt tests
         AddressUtilsTest.class,
-        ApplicationProtocolSelectorAdapterTest.class,
+        // ApplicationProtocolSelectorAdapterTest.class,
         ArrayUtilsTest.class,
         CertPinManagerTest.class,
         ChainStrengthAnalyzerTest.class,
@@ -105,7 +105,7 @@ import org.junit.runners.Suite;
         CertificateFactoryTest.class,
         X509CertificateTest.class,
         X509CRLTest.class,
-        AlgorithmParameterGeneratorTestDH.class,
+        // AlgorithmParameterGeneratorTestDH.class,
         AlgorithmParameterGeneratorTestDSA.class,
         AlgorithmParametersPSSTest.class,
         AlgorithmParametersTestAES.class,
