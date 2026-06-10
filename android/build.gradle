@@ -14,7 +14,7 @@ ext {
     androidVersionName = "$version"
     androidMinSdkVersion = 19
     androidTargetSdkVersion = 26
-    androidNdkVersion = '28.2.13676358'
+    androidNdkVersion = '25.2.9519653'
     androidCmakeVersion = '3.22.1'
 }
 
@@ -52,7 +52,7 @@ android {
                         '-DANDROID_STL=c++_static',
                         "-DBORINGSSL_HOME=$boringsslHome",
                         "-DCMAKE_CXX_STANDARD=17",
-                        '-DCMAKE_SHARED_LINKER_FLAGS=-z max-page-size=16384'
+                        '-DCMAKE_SHARED_LINKER_FLAGS=-z max-page-size=16384 -z common-page-size=16384'
                 cFlags '-fvisibility=hidden',
                         '-DBORINGSSL_SHARED_LIBRARY',
                         '-DBORINGSSL_IMPLEMENTATION',
