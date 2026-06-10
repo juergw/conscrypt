@@ -376,6 +376,10 @@ public final class CipherBasicsTest {
                 if (p.getName().equals("BC") && transformation.equals("AES/GCM-SIV/NoPadding")) {
                     continue;
                 }
+                // Skip old android conscrypt versions.
+                if (p.getClass().getName().startsWith("com.android.org.conscrypt")) {
+                    continue;
+                }
 
                 Cipher cipher;
                 try {
