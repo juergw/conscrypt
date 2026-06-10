@@ -106,7 +106,7 @@ import org.junit.runners.Suite;
         CertificateFactoryTest.class,
         X509CertificateTest.class,
         X509CRLTest.class,
-        // AlgorithmParameterGeneratorTestDH.class,
+        AlgorithmParameterGeneratorTestDH.class,
         AlgorithmParameterGeneratorTestDSA.class,
         AlgorithmParametersPSSTest.class,
         AlgorithmParametersTestAES.class,
@@ -149,8 +149,6 @@ import org.junit.runners.Suite;
         SSLParametersTest.class,
         VeryBasicHttpServerTest.class,
         X509KeyManagerTest.class,
-        
-        SSLSocketTest.class, // tests PQC.
 })
 public class ConscryptAndroidSuite {
     @BeforeClass

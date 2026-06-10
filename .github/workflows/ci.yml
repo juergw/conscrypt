@@ -237,6 +237,22 @@ jobs:
       fail-fast: false
       matrix:
         api-level: [19, 21, 26, 30, 34]
+        include:
+          - api-level: 19
+            arch: x86
+            target: default
+          - api-level: 21
+            arch: x86_64
+            target: google_apis
+          - api-level: 26
+            arch: x86_64
+            target: google_apis
+          - api-level: 30
+            arch: x86_64
+            target: google_apis
+          - api-level: 34
+            arch: x86_64
+            target: google_apis
 
     steps:
       - name: Set up JDK 17 for toolchains
