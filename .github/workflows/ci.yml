@@ -289,10 +289,10 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
-          arch: x86_64
+          arch: ${{ matrix.arch }}
           force-avd-creation: true
           disable-spellchecker: true
-          target: google_apis
+          target: ${{ matrix.target }}
           script: ./gradlew :conscrypt-android:connectedAndroidTest -PcheckErrorQueue
 
   uberjar:
