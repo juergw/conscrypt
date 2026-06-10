@@ -57,6 +57,7 @@ import org.conscrypt.javax.net.ssl.KeyManagerFactoryTest;
 import org.conscrypt.javax.net.ssl.KeyStoreBuilderParametersTest;
 import org.conscrypt.javax.net.ssl.SNIHostNameTest;
 import org.conscrypt.javax.net.ssl.SSLParametersTest;
+import org.conscrypt.javax.net.ssl.SSLSocketTest;
 import org.conscrypt.javax.net.ssl.X509KeyManagerTest;
 import org.conscrypt.metrics.CipherSuiteTest;
 import org.conscrypt.metrics.OptionalMethodTest;
@@ -148,6 +149,8 @@ import org.junit.runners.Suite;
         SSLParametersTest.class,
         VeryBasicHttpServerTest.class,
         X509KeyManagerTest.class,
+        
+        SSLSocketTest.class, // tests PQC.
 })
 public class ConscryptAndroidSuite {
     @BeforeClass
