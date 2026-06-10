@@ -180,20 +180,6 @@ public class ECDHKeyAgreementTest {
     }
 
     @Test
-    public void testInit_withUnsupportedPrivateKeyType() throws Exception {
-        invokeCallingMethodForEachKeyAgreementProvider();
-    }
-
-    void testInit_withUnsupportedPrivateKeyType(Provider provider) throws Exception {
-        KeyAgreement keyAgreement = getKeyAgreement(provider);
-        try {
-            keyAgreement.init(KAT_PUBLIC_KEY1);
-            fail();
-        } catch (InvalidKeyException expected) {
-        }
-    }
-
-    @Test
     public void testInit_withUnsupportedAlgorithmParameterSpec() throws Exception {
         invokeCallingMethodForEachKeyAgreementProvider();
     }

@@ -219,6 +219,10 @@ public final class CipherBasicsTest {
                 if (transformation.equals("ChaCha20") && p.getName().equals("SunJCE")) {
                     continue;
                 }
+                // Don't test the old, pre-installed conscrypt version.
+                if (p.getClass().getName().startsWith("com.android.org.conscrypt")) {
+                    continue;
+                }
 
                 Cipher cipher;
                 try {
