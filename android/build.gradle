@@ -58,8 +58,7 @@ android {
                         '-DBORINGSSL_IMPLEMENTATION',
                         '-DOPENSSL_SMALL',
                         '-D_XOPEN_SOURCE=700',
-                        '-Wno-unused-parameter',
-                        '-U_FORTIFY_SOURCE'
+                        '-Wno-unused-parameter'
                 targets 'conscrypt_jni'
             }
         }
