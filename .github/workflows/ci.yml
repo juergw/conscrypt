@@ -236,8 +236,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [19, 21, 26, 30, 34]
+        api-level: [17, 19, 21, 26, 30, 34]
         include:
+          - api-level: 17
+            arch: x86
+            target: default
           - api-level: 19
             arch: x86
             target: default

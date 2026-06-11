@@ -192,7 +192,11 @@ public class MacTest {
                         try {
                             Mac mac = Mac.getInstance(algorithm, provider);
                             mac.init(keyPair.getPublic(), null);
-                            fail();
+			    fail(
+			       "Provider "
+			          + provider.getClass().getName()
+			          + " accepted RSA public key for algorithm "
+			          + algorithm);
                         } catch (InvalidKeyException e) {
                             // Expected
                         }
