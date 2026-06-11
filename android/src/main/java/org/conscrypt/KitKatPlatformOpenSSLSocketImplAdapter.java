@@ -53,6 +53,10 @@ public class KitKatPlatformOpenSSLSocketImplAdapter
         this.delegate = delegate;
     }
 
+    public String getCurveNameForTesting() {
+        return delegate.getCurveNameForTesting();
+    }
+
     // Socket methods.
 
     @Override
