@@ -149,6 +149,9 @@ import org.junit.runners.Suite;
         SSLParametersTest.class,
         VeryBasicHttpServerTest.class,
         X509KeyManagerTest.class,
+        
+        // TEST SSL
+        SSLSocketTest.class,
 })
 public class ConscryptAndroidSuite {
     @BeforeClass

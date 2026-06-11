@@ -223,6 +223,9 @@ public final class CipherBasicsTest {
                 if (p.getClass().getName().startsWith("com.android.org.conscrypt")) {
                     continue;
                 }
+                if (p.getClass().getName().startsWith("com.android.org.bouncycastle")) {
+                    continue;
+                }
 
                 Cipher cipher;
                 try {
@@ -378,6 +381,10 @@ public final class CipherBasicsTest {
                 }
                 // Skip old android conscrypt versions.
                 if (p.getClass().getName().startsWith("com.android.org.conscrypt")) {
+                    continue;
+                }
+                // Skip old BC versions bundled with andorid.
+                if (p.getClass().getName().startsWith("com.android.org.bouncycastle")) {
                     continue;
                 }
 
