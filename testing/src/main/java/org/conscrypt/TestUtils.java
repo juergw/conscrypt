@@ -252,7 +252,9 @@ public final class TestUtils {
 
     public static Provider getConscryptProvider(boolean isTlsV1Deprecated, boolean isTlsV1Enabled) {
         try {
-            String defaultName = StandardNames.JSSE_PROVIDER_NAME;
+            String defaultName = (String) conscryptClass("Platform")
+                                         .getDeclaredMethod("getDefaultProviderName")
+                                         .invoke(null);
             Constructor<?> c =
                     conscryptClass("OpenSSLProvider")
                             .getDeclaredConstructor(String.class, Boolean.TYPE, String.class,

@@ -124,7 +124,6 @@ preBuild {
 }
 
 dependencies {
-    coreLibraryDesugaring libs.desugar.jdk.libs
     publicApiDocs project(':conscrypt-api-doclet')
     androidTestImplementation project(path: ':conscrypt-testing')
     androidTestImplementation libs.bouncycastle.apis
