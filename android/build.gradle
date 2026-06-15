@@ -108,6 +108,7 @@ android {
     lintOptions {
         lintConfig file('lint.xml')
     }
+
     publishing {
         singleVariant("release") {
             withSourcesJar()
@@ -181,4 +182,3 @@ afterEvaluate {
         artifact javadocsJar.get()
     }
 }
-
