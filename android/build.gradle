@@ -31,7 +31,6 @@ android {
     compileOptions {
         sourceCompatibility androidMinJavaVersion
         targetCompatibility androidMinJavaVersion
-        coreLibraryDesugaringEnabled true
     }
 
     defaultConfig {
