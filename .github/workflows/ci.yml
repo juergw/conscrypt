@@ -195,7 +195,7 @@ jobs:
           "$SDKMANAGER" --sdk_root="$ANDROID_HOME" 'build-tools;30.0.3'
           "$SDKMANAGER" --sdk_root="$ANDROID_HOME" 'platforms;android-26'
           "$SDKMANAGER" --sdk_root="$ANDROID_HOME" 'extras;android;m2repository'
-          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" 'ndk;25.2.9519653'
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" 'ndk;27.3.13750724'
           "$SDKMANAGER" --sdk_root="$ANDROID_HOME" 'cmake;3.22.1'
 
       - name: Build with Gradle
@@ -236,11 +236,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [19, 21, 26, 30, 34]
+        api-level: [21, 26, 30, 34]
         include:
-          - api-level: 19
-            arch: x86
-            target: default
           - api-level: 21
             arch: x86_64
             target: google_apis
