@@ -319,7 +319,8 @@ public class SSLContextTest {
     public void test_SSLContext_getProvider() throws Exception {
         Provider provider = SSLContext.getDefault().getProvider();
         assertNotNull(provider);
-        assertEquals(StandardNames.JSSE_PROVIDER_NAME, provider.getName());
+        String name = provider.getClass().getName();
+        assertEquals("org.conscrypt.OpenSSLProvider", name);
     }
 
     @Test
