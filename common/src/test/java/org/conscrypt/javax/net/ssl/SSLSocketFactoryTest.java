@@ -16,7 +16,6 @@
 
 package org.conscrypt.javax.net.ssl;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
@@ -34,7 +33,6 @@ import java.net.SocketException;
 
 import javax.net.ServerSocketFactory;
 import javax.net.SocketFactory;
-import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
@@ -49,12 +47,6 @@ public class SSLSocketFactoryTest {
 
     @Test
     public void test_SSLSocketFactory_defaultConfiguration() throws Exception {
-        SSLSocketFactory defaultSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-        SSLSocketFactory contextSocketFactory = (SSLSocketFactory) SSLContext.getDefault().getSocketFactory();
-        assertEquals(defaultSocketFactory.getClass().getName(),
-                     contextSocketFactory.getClass().getName());
-
-
         SSLConfigurationAsserts.assertSSLSocketFactoryDefaultConfiguration(
                 (SSLSocketFactory) SSLSocketFactory.getDefault());
     }

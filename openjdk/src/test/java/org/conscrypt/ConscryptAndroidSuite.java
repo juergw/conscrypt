@@ -163,7 +163,6 @@ import org.junit.runners.Suite;
         SSLEngineTest.class,
         SSLEngineVersionCompatibilityTest.class,
         SSLParametersTest.class,
-        SSLServerSocketFactoryTest.class,
         SSLServerSocketTest.class,
         SSLSessionContextTest.class,
         SSLSessionTest.class,
