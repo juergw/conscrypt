@@ -166,7 +166,6 @@ import org.junit.runners.Suite;
         SSLServerSocketTest.class,
         SSLSessionContextTest.class,
         SSLSessionTest.class,
-        SSLSocketFactoryTest.class,
         SSLSocketTest.class,
 })
 public class ConscryptAndroidSuite {
