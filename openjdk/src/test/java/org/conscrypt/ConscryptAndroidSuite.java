@@ -56,7 +56,16 @@ import org.conscrypt.javax.crypto.XdhKeyTest;
 import org.conscrypt.javax.net.ssl.KeyManagerFactoryTest;
 import org.conscrypt.javax.net.ssl.KeyStoreBuilderParametersTest;
 import org.conscrypt.javax.net.ssl.SNIHostNameTest;
+import org.conscrypt.javax.net.ssl.SSLContextTest;
+import org.conscrypt.javax.net.ssl.SSLEngineTest;
+import org.conscrypt.javax.net.ssl.SSLEngineVersionCompatibilityTest;
 import org.conscrypt.javax.net.ssl.SSLParametersTest;
+import org.conscrypt.javax.net.ssl.SSLServerSocketFactoryTest;
+import org.conscrypt.javax.net.ssl.SSLServerSocketTest;
+import org.conscrypt.javax.net.ssl.SSLSessionContextTest;
+import org.conscrypt.javax.net.ssl.SSLSessionTest;
+import org.conscrypt.javax.net.ssl.SSLSocketFactoryTest;
+import org.conscrypt.javax.net.ssl.SSLSocketTest;
 import org.conscrypt.javax.net.ssl.X509KeyManagerTest;
 import org.conscrypt.metrics.CipherSuiteTest;
 import org.conscrypt.metrics.OptionalMethodTest;
@@ -153,6 +162,15 @@ import tests.util.ServiceTester;
         SSLParametersTest.class,
         VeryBasicHttpServerTest.class,
         X509KeyManagerTest.class,
+        
+        SSLContextTest.class,
+        SSLEngineTest.class,
+        SSLEngineVersionCompatibilityTest.class,
+        SSLParametersTest.class,
+        SSLServerSocketTest.class,
+        SSLSessionContextTest.class,
+        SSLSessionTest.class,
+        SSLSocketTest.class,
 })
 public class ConscryptAndroidSuite {
     @BeforeClass
