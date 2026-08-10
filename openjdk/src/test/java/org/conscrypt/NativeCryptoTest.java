@@ -16,6 +16,7 @@
 
 package org.conscrypt;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.conscrypt.NativeConstants.SSL_MODE_CBC_RECORD_SPLITTING;
 import static org.conscrypt.NativeConstants.SSL_MODE_ENABLE_FALSE_START;
 import static org.conscrypt.NativeConstants.SSL_OP_CIPHER_SERVER_PREFERENCE;
@@ -43,6 +44,7 @@ import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeFalse;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.when;
+
 
 import org.conscrypt.NativeCrypto.SSLHandshakeCallbacks;
 import org.conscrypt.OpenSSLX509CertificateFactory.ParsingException;
@@ -3312,6 +3314,9 @@ public class NativeCryptoTest {
         assertEquals(NativeConstants.EVP_PKEY_X25519, NativeCrypto.EVP_PKEY_type(privateKey));
         byte[] rawPrivateKey = NativeCrypto.EVP_PKEY_get_raw_private_key(privateKey);
         assertArrayEquals(privateKeyBytes, rawPrivateKey);
+        
+        // test assertThat
+        assertThat(privateKeyBytes).isEqualTo(rawPrivateKey);
 
         // At the same time, test that getting the seed fails.
         assertThrows(RuntimeException.class,
