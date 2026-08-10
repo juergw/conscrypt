@@ -404,8 +404,6 @@ public class NativeCryptoTest {
         NativeCrypto.SSL_set1_groups(s, null, new int[] {NativeConstants.NID_secp384r1});
         NativeCrypto.SSL_set1_groups(s, null, new int[] {NativeConstants.NID_secp521r1});
         NativeCrypto.SSL_set1_groups(s, null, new int[] {NativeConstants.NID_X25519MLKEM768});
-        NativeCrypto.SSL_set1_groups(s, null,
-                                     new int[] {NativeConstants.NID_X25519Kyber768Draft00});
         NativeCrypto.SSL_set1_groups(s, null, new int[] {NativeConstants.NID_ML_KEM_1024});
 
         NativeCrypto.SSL_set1_groups(
