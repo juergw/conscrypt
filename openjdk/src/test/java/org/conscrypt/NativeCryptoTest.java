@@ -411,7 +411,6 @@ public class NativeCryptoTest {
                 new int[] {NativeConstants.NID_X25519, NativeConstants.NID_X9_62_prime256v1,
                            NativeConstants.NID_secp384r1, NativeConstants.NID_secp521r1,
                            NativeConstants.NID_X25519MLKEM768,
-                           NativeConstants.NID_X25519Kyber768Draft00,
                            NativeConstants.NID_ML_KEM_1024});
 
         NativeCrypto.SSL_free(s, null);
