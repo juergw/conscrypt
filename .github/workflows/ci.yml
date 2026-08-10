@@ -59,14 +59,56 @@ jobs:
         include:
           - platform: ubuntu-22.04
             tools_url: https://dl.google.com/android/repository/commandlinetools-linux-14742923_latest.zip
+            # Build the native libraries against glibc 2.31, so that the
+            # runner's own glibc 2.35 does not become their floor.
+            container: ubuntu:20.04
           - platform: macos-latest
             tools_url: https://dl.google.com/android/repository/commandlinetools-mac-14742923_latest.zip
           - platform: windows-latest
             tools_url: https://dl.google.com/android/repository/commandlinetools-win-14742923_latest.zip
 
     runs-on: ${{ matrix.platform }}
+    container: ${{ matrix.container }}
 
     steps:
+      - name: Bootstrap build container
+        # The image is bare, so install what the later steps expect. Its CMake
+        # 3.16 and Clang 10 are both too old to build BoringSSL, so take CMake
+        # from Kitware and Clang from apt.llvm.org. Neither affects the glibc
+        # floor, which is set by the container's glibc.
+        if: matrix.container != ''
+        timeout-minutes: 15
+        run: |
+          set -eu
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get -qq update
+          apt-get -qq install -y --no-install-recommends \
+            build-essential \
+            ca-certificates \
+            curl \
+            g++-aarch64-linux-gnu \
+            git \
+            ninja-build \
+            openjdk-11-jdk-headless \
+            unzip
+
+          cmake_dir="cmake-$CMAKE_VERSION-linux-x86_64"
+          curl -sSL "https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/$cmake_dir.tar.gz" \
+            | tar xz -C /opt
+          ln -sf "/opt/$cmake_dir/bin/cmake" /usr/local/bin/cmake
+
+          curl -sSL https://apt.llvm.org/llvm-snapshot.gpg.key \
+            -o /etc/apt/trusted.gpg.d/llvm.asc
+          echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-$LLVM_VERSION main" \
+            > /etc/apt/sources.list.d/llvm.list
+          apt-get -qq update
+          apt-get -qq install -y --no-install-recommends "clang-$LLVM_VERSION"
+          ln -sf "/usr/bin/clang-$LLVM_VERSION" /usr/local/bin/clang
+          ln -sf "/usr/bin/clang++-$LLVM_VERSION" /usr/local/bin/clang++
+        env:
+          CMAKE_VERSION: 3.31.6
+          LLVM_VERSION: 19
+
       - name: Set up JDK 17 for toolchains
         uses: actions/setup-java@v5
         with:
@@ -90,12 +132,15 @@ jobs:
           echo "CC=clang" >> $GITHUB_ENV
           echo "CXX=clang++" >> $GITHUB_ENV
 
-          sudo add-apt-repository ppa:openjdk-r/ppa
-          sudo apt-get -qq update
-          sudo apt-get -qq install -y --no-install-recommends \
-            g++-aarch64-linux-gnu \
-            ninja-build \
-            openjdk-17-jre-headless
+          # Already installed by the container bootstrap step above.
+          if [ -z "${{ matrix.container }}" ]; then
+            sudo add-apt-repository ppa:openjdk-r/ppa
+            sudo apt-get -qq update
+            sudo apt-get -qq install -y --no-install-recommends \
+              g++-aarch64-linux-gnu \
+              ninja-build \
+              openjdk-17-jre-headless
+          fi
 
       - name: Setup macOS environment
         if: runner.os == 'macOS'
@@ -142,6 +187,7 @@ jobs:
       - name: Build BoringSSL 64-bit Linux
         # Please keep this in sync with other "Build BoringSSL 64-bit Linux"
         if: runner.os == 'Linux'
+        shell: bash # Required for pushd/popd
         run: |
           mkdir -p "$BORINGSSL_HOME/build64"
           pushd "$BORINGSSL_HOME/build64"
@@ -152,6 +198,7 @@ jobs:
       - name: Build BoringSSL AArch64 Linux
         # Please keep this in sync with other "Build BoringSSL AArch64 Linux"
         if: runner.os == 'Linux'
+        shell: bash # Required for pushd/popd
         run: |
           mkdir -p "$BORINGSSL_HOME/build.arm"
           pushd "$BORINGSSL_HOME/build.arm"
@@ -185,7 +232,10 @@ jobs:
         shell: bash
         if: runner.os == 'Linux'
         run: |
-          cd "${{ runner.temp }}"
+          # $RUNNER_TEMP, not ${{ runner.temp }}: the runner rewrites host paths
+          # to container paths in the environment it injects, but not in the
+          # script text it expands beforehand.
+          cd "$RUNNER_TEMP"
           curl -L "${{ matrix.tools_url }}" -o android-tools.zip
           mkdir -p "$ANDROID_HOME"
           unzip -q android-tools.zip -d "$ANDROID_HOME"
