@@ -124,11 +124,11 @@ jobs:
       - name: Set runner-specific environment variables
         shell: bash
         run: |
-          echo "ANDROID_HOME=${{ runner.temp }}/android-sdk" >> $GITHUB_ENV
-          echo "ANDROID_SDK_ROOT=${{ runner.temp }}/android-sdk" >> $GITHUB_ENV
-          echo "BORINGSSL_HOME=${{ runner.temp }}/boringssl" >> $GITHUB_ENV
-          echo "SDKMANAGER=${{ runner.temp }}/android-sdk/cmdline-tools/bin/sdkmanager" >> $GITHUB_ENV
-          echo "M2_REPO=${{ runner.temp }}/m2" >> $GITHUB_ENV
+          echo "ANDROID_HOME=$RUNNER_TEMP/android-sdk" >> $GITHUB_ENV
+          echo "ANDROID_SDK_ROOT=$RUNNER_TEMP/android-sdk" >> $GITHUB_ENV
+          echo "BORINGSSL_HOME=$RUNNER_TEMP/boringssl" >> $GITHUB_ENV
+          echo "SDKMANAGER=$RUNNER_TEMP/android-sdk/cmdline-tools/bin/sdkmanager" >> $GITHUB_ENV
+          echo "M2_REPO=$RUNNER_TEMP/m2" >> $GITHUB_ENV
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
@@ -172,6 +172,12 @@ jobs:
       - name: Checkout BoringSSL 0.20260616.0 branch
         shell: bash
         run: |
+          git config --global --add safe.directory "*"
+          if [ -d "$BORINGSSL_HOME/boringssl/.git" ]; then
+            shopt -s dotglob
+            mv "$BORINGSSL_HOME/boringssl/"* "$BORINGSSL_HOME/"
+            rmdir "$BORINGSSL_HOME/boringssl"
+          fi
           cd "$BORINGSSL_HOME"
           git checkout --progress --force -B 0.20260616.0
 
@@ -318,7 +324,7 @@ jobs:
         shell: bash
         run: |
           echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
-          echo "BORINGSSL_HOME=${{ runner.temp }}/boringssl" >> $GITHUB_ENV
+          echo "BORINGSSL_HOME=$RUNNER_TEMP/boringssl" >> $GITHUB_ENV
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
@@ -332,6 +338,12 @@ jobs:
       - name: Checkout BoringSSL 0.20260616.0 branch
         shell: bash
         run: |
+          git config --global --add safe.directory "*"
+          if [ -d "$BORINGSSL_HOME/boringssl/.git" ]; then
+            shopt -s dotglob
+            mv "$BORINGSSL_HOME/boringssl/"* "$BORINGSSL_HOME/"
+            rmdir "$BORINGSSL_HOME/boringssl"
+          fi
           cd "$BORINGSSL_HOME"
           git checkout --progress --force -B 0.20260616.0
       - name: Accept Android SDK licenses
@@ -372,8 +384,8 @@ jobs:
       - name: Set runner-specific environment variables
         shell: bash
         run: |
-          echo "M2_REPO=${{ runner.temp }}/m2" >> $GITHUB_ENV
-          echo "BORINGSSL_HOME=${{ runner.temp }}/boringssl" >> $GITHUB_ENV
+          echo "M2_REPO=$RUNNER_TEMP/m2" >> $GITHUB_ENV
+          echo "BORINGSSL_HOME=$RUNNER_TEMP/boringssl" >> $GITHUB_ENV
 
       - name: Fetch BoringSSL source
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131  # v7.0.0
@@ -384,6 +396,12 @@ jobs:
       - name: Checkout BoringSSL 0.20260616.0 branch
         shell: bash
         run: |
+          git config --global --add safe.directory "*"
+          if [ -d "$BORINGSSL_HOME/boringssl/.git" ]; then
+            shopt -s dotglob
+            mv "$BORINGSSL_HOME/boringssl/"* "$BORINGSSL_HOME/"
+            rmdir "$BORINGSSL_HOME/boringssl"
+          fi
           cd "$BORINGSSL_HOME"
           git checkout --progress --force -B 0.20260616.0
 
