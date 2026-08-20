@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Clone BoringSSL repo
         run: |
-          git clone --depth 1 --filter=blob:none --no-checkout https://github.com/google/boringssl.git "${{ runner.temp }}/boringssl"
+          git clone --depth 1 --filter=blob:none --no-checkout --branch 0.20260616.0 https://github.com/google/boringssl.git "${{ runner.temp }}/boringssl"
           echo Using BoringSSL commit: $(cd "${{ runner.temp }}/boringssl"; git rev-parse HEAD)
 
       - name: Archive BoringSSL source
@@ -169,7 +169,7 @@ jobs:
           name: boringssl-source
           path: ${{ runner.temp }}/boringssl
 
-      - name: Checkout BoringSSL main branch
+      - name: Checkout BoringSSL 0.20260616.0 branch
         shell: bash
         run: |
           cd "$BORINGSSL_HOME"
@@ -329,7 +329,7 @@ jobs:
           name: boringssl-source
           path: ${{ runner.temp }}/boringssl
 
-      - name: Checkout BoringSSL main branch
+      - name: Checkout BoringSSL 0.20260616.0 branch
         shell: bash
         run: |
           cd "$BORINGSSL_HOME"
@@ -381,7 +381,7 @@ jobs:
           name: boringssl-source
           path: ${{ runner.temp }}/boringssl
 
-      - name: Checkout BoringSSL main branch
+      - name: Checkout BoringSSL 0.20260616.0 branch
         shell: bash
         run: |
           cd "$BORINGSSL_HOME"
