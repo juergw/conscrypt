@@ -143,6 +143,7 @@ jobs:
           choco install ninja -y
 
       - name: Clone BoringSSL
+        shell: bash
         run: |
           git clone --depth 1 --branch 0.20260616.0 https://github.com/google/boringssl.git "$BORINGSSL_HOME"
 
