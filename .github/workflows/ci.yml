@@ -11,25 +11,6 @@ permissions:
   contents: read
 
 jobs:
-  boringssl_clone:
-    # This step ensures that all builders have the same version of BoringSSL
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: Clone BoringSSL repo
-        run: |
-          git clone --depth 1 --filter=blob:none --no-checkout --branch 0.20260616.0 https://github.com/google/boringssl.git "${{ runner.temp }}/boringssl"
-          echo Using BoringSSL commit: $(cd "${{ runner.temp }}/boringssl"; git rev-parse HEAD)
-
-      - name: Archive BoringSSL source
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f  # v6.0.0
-        with:
-          name: boringssl-source
-          path: ${{ runner.temp }}/boringssl
-          retention-days: 1
-          include-hidden-files: true
-          if-no-files-found: error
-
   clang_format_check:
     # Only run on pull requests.
     if: ${{ startsWith(github.ref, 'refs/pull/') }}
@@ -53,8 +34,6 @@ jobs:
           git clang-format --style=file --diff origin/$GITHUB_BASE_REF '*.c' '*.h' '*.cc' '*.cpp' '*.java'
 
   build:
-    needs: boringssl_clone
-
     strategy:
       fail-fast: false
       matrix:
@@ -163,23 +142,9 @@ jobs:
           choco install nasm -y
           choco install ninja -y
 
-      - name: Fetch BoringSSL source
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131  # v7.0.0
-        with:
-          name: boringssl-source
-          path: ${{ runner.temp }}/boringssl
-
-      - name: Checkout BoringSSL 0.20260616.0 branch
-        shell: bash
+      - name: Clone BoringSSL
         run: |
-          git config --global --add safe.directory "*"
-          if [ -d "$BORINGSSL_HOME/boringssl/.git" ]; then
-            shopt -s dotglob
-            mv "$BORINGSSL_HOME/boringssl/"* "$BORINGSSL_HOME/"
-            rmdir "$BORINGSSL_HOME/boringssl"
-          fi
-          cd "$BORINGSSL_HOME"
-          git checkout --progress --force -B 0.20260616.0
+          git clone --depth 1 --branch 0.20260616.0 https://github.com/google/boringssl.git "$BORINGSSL_HOME"
 
       - name: Build BoringSSL x86 and ARM MacOS
         if: runner.os == 'macOS'
@@ -296,7 +261,6 @@ jobs:
           if-no-files-found: error
 
   android-test:
-    needs: boringssl_clone
     runs-on: macos-15-intel
     strategy:
       fail-fast: false
@@ -329,23 +293,9 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Fetch BoringSSL source
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131  # v7.0.0
-        with:
-          name: boringssl-source
-          path: ${{ runner.temp }}/boringssl
-
-      - name: Checkout BoringSSL 0.20260616.0 branch
-        shell: bash
+      - name: Clone BoringSSL
         run: |
-          git config --global --add safe.directory "*"
-          if [ -d "$BORINGSSL_HOME/boringssl/.git" ]; then
-            shopt -s dotglob
-            mv "$BORINGSSL_HOME/boringssl/"* "$BORINGSSL_HOME/"
-            rmdir "$BORINGSSL_HOME/boringssl"
-          fi
-          cd "$BORINGSSL_HOME"
-          git checkout --progress --force -B 0.20260616.0
+          git clone --depth 1 --branch 0.20260616.0 https://github.com/google/boringssl.git "$BORINGSSL_HOME"
       - name: Accept Android SDK licenses
         run: |
           yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
@@ -387,23 +337,9 @@ jobs:
           echo "M2_REPO=$RUNNER_TEMP/m2" >> $GITHUB_ENV
           echo "BORINGSSL_HOME=$RUNNER_TEMP/boringssl" >> $GITHUB_ENV
 
-      - name: Fetch BoringSSL source
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131  # v7.0.0
-        with:
-          name: boringssl-source
-          path: ${{ runner.temp }}/boringssl
-
-      - name: Checkout BoringSSL 0.20260616.0 branch
-        shell: bash
+      - name: Clone BoringSSL
         run: |
-          git config --global --add safe.directory "*"
-          if [ -d "$BORINGSSL_HOME/boringssl/.git" ]; then
-            shopt -s dotglob
-            mv "$BORINGSSL_HOME/boringssl/"* "$BORINGSSL_HOME/"
-            rmdir "$BORINGSSL_HOME/boringssl"
-          fi
-          cd "$BORINGSSL_HOME"
-          git checkout --progress --force -B 0.20260616.0
+          git clone --depth 1 --branch 0.20260616.0 https://github.com/google/boringssl.git "$BORINGSSL_HOME"
 
       - name: Build BoringSSL 64-bit Linux
         # Please keep this in sync with other "Build BoringSSL 64-bit Linux"
