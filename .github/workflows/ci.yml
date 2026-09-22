@@ -42,7 +42,7 @@ jobs:
   clang_format_check:
     # Only run on pull requests.
     if: ${{ startsWith(github.ref, 'refs/pull/') }}
-    runs-on: ubuntu-2d2.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repository
